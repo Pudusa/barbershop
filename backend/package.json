@@ -1,0 +1,47 @@
+{
+  "name": "barbershop-backend-nest",
+  "version": "1.0.0",
+  "description": "NestJS backend for Barbershop application with Prisma and Supabase",
+  "author": "",
+  "private": true,
+  "license": "UNLICENSED",
+  "scripts": {
+    "build": "nest build",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "start": "nest start",
+    "start:dev": "nest start --watch",
+    "start:debug": "nest start --debug --watch",
+    "start:prod": "node dist/main",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:seed": "ts-node prisma/seed.ts"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
+  "dependencies": {
+    "@nestjs/common": "^11.1.8",
+    "@nestjs/config": "^4.0.2",
+    "@nestjs/core": "^11.1.8",
+    "@nestjs/mapped-types": "^2.1.0",
+    "@nestjs/platform-express": "^11.1.8",
+    "@nestjs/swagger": "^11.2.3",
+    "@supabase/supabase-js": "^2.78.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.3",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.1"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^11.0.10",
+    "@nestjs/testing": "^11.1.9",
+    "@prisma/client": "^5.22.0",
+    "@types/express": "^5.0.5",
+    "@types/node": "^22.10.2",
+    "prisma": "^5.17.0",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.7.2"
+  }
+}
