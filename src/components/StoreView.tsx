@@ -45,7 +45,7 @@ export const StoreView: React.FC = () => {
       </div>
 
       {/* Product Grid */}
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 gap-3 w-full min-w-0">
         {filteredProducts.length === 0 ? (
           <div className="col-span-2 text-center py-12 text-slate-500 text-sm">
             No hay productos disponibles en esta categoría.
@@ -56,9 +56,9 @@ export const StoreView: React.FC = () => {
             return (
               <div 
                 key={product.id}
-                className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col justify-between shadow-md"
+                className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col justify-between shadow-md min-w-0 w-full"
               >
-                <div className="relative h-36 bg-slate-950">
+                <div className="relative h-36 bg-slate-950 w-full">
                   <img 
                     src={product.image} 
                     alt={product.name} 
@@ -70,8 +70,8 @@ export const StoreView: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="p-3 space-y-2 flex-1 flex flex-col justify-between">
-                  <div>
+                <div className="p-3 space-y-2 flex-1 flex flex-col justify-between min-w-0">
+                  <div className="min-w-0">
                     <span className="text-[9px] font-bold uppercase tracking-wider text-amber-400">{product.category}</span>
                     <h3 className="text-xs font-bold text-white line-clamp-1 mt-0.5">{product.name}</h3>
                     <p className="text-[11px] text-slate-400 line-clamp-2 mt-1">{product.description}</p>

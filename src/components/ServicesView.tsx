@@ -43,7 +43,7 @@ export const ServicesView: React.FC = () => {
       </div>
 
       {/* Services List */}
-      <div className="grid gap-4">
+      <div className="grid gap-4 w-full min-w-0">
         {filteredServices.length === 0 ? (
           <div className="text-center py-12 text-slate-500 text-sm">
             No hay servicios en esta categoría.
@@ -52,9 +52,9 @@ export const ServicesView: React.FC = () => {
           filteredServices.map(service => (
             <div 
               key={service.id}
-              className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-lg transition hover:border-amber-500/40"
+              className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-lg transition hover:border-amber-500/40 w-full min-w-0"
             >
-              <div className="relative h-40">
+              <div className="relative h-40 w-full">
                 <img 
                   src={service.image} 
                   alt={service.name} 
@@ -69,10 +69,10 @@ export const ServicesView: React.FC = () => {
                 </span>
               </div>
 
-              <div className="p-4 space-y-3">
-                <div className="space-y-1">
-                  <h3 className="text-base font-bold text-white">{service.name}</h3>
-                  <p className="text-xs text-slate-400 leading-relaxed">{service.description}</p>
+              <div className="p-4 space-y-3 min-w-0">
+                <div className="space-y-1 min-w-0">
+                  <h3 className="text-base font-bold text-white truncate">{service.name}</h3>
+                  <p className="text-xs text-slate-400 leading-relaxed line-clamp-2">{service.description}</p>
                 </div>
 
                 <div className="flex items-center justify-between pt-2 border-t border-slate-800/80">

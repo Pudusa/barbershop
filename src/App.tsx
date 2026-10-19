@@ -15,7 +15,7 @@ const AppContent: React.FC = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col max-w-md mx-auto sm:max-w-xl md:max-w-2xl relative shadow-2xl border-x border-slate-900">
+    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col w-full max-w-md mx-auto sm:max-w-xl md:max-w-2xl relative shadow-2xl border-x border-slate-900 overflow-x-hidden">
       <Header onOpenCart={() => setIsCartOpen(true)} />
 
       <main className="flex-1">
