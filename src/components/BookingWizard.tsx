@@ -251,6 +251,12 @@ export const BookingWizard: React.FC = () => {
             <div className="flex justify-between border-t border-slate-800 pt-2"><span className="text-slate-500">Total:</span> <span className="font-bold text-amber-400">${selectedService?.price}</span></div>
           </div>
 
+          {bookingError && (
+            <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-xl text-red-400 text-xs">
+              {bookingError}
+            </div>
+          )}
+
           <div className="space-y-3">
             <div>
               <label className="text-xs text-slate-400 block mb-1">Nombre Completo *</label>
@@ -288,10 +294,11 @@ export const BookingWizard: React.FC = () => {
             </button>
             <button
               type="submit"
-              className="w-2/3 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-3 rounded-xl flex items-center justify-center space-x-2 shadow-lg transition"
+              disabled={isSubmitting}
+              className="w-2/3 bg-amber-500 hover:bg-amber-400 disabled:opacity-50 text-slate-950 font-bold py-3 rounded-xl flex items-center justify-center space-x-2 shadow-lg transition"
             >
               <CheckCircle className="w-4 h-4" />
-              <span>Confirmar Turno</span>
+              <span>{isSubmitting ? 'Reservando...' : 'Confirmar Turno'}</span>
             </button>
           </div>
         </form>
