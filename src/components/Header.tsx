@@ -1,5 +1,5 @@
 import React from 'react';
-import { Scissors, ShoppingBag, ShieldCheck, UserCheck } from 'lucide-react';
+import { Scissors, ShoppingBag, Lock, LogOut, User } from 'lucide-react';
 import { useBarbershop } from '../context/BarbershopContext';
 
 interface HeaderProps {
@@ -7,7 +7,7 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ onOpenCart }) => {
-  const { activeTab, setActiveTab, cart } = useBarbershop();
+  const { setActiveTab, cart, staffUser, setIsStaffLoginOpen, logoutStaff } = useBarbershop();
   const totalCartItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
@@ -26,28 +26,30 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCart }) => {
       </div>
 
       <div className="flex items-center space-x-2">
-        {/* Role Switcher / Admin & Barber */}
-        <button
-          onClick={() => setActiveTab(activeTab === 'admin' ? 'home' : 'admin')}
-          className={`p-2 rounded-xl text-xs font-medium transition flex items-center space-x-1 ${
-            activeTab === 'admin' ? 'bg-amber-500 text-slate-950 font-bold' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
-          }`}
-          title="Panel Admin"
-        >
-          <ShieldCheck className="w-4 h-4" />
-          <span className="hidden sm:inline">Admin</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab(activeTab === 'barber' ? 'home' : 'barber')}
-          className={`p-2 rounded-xl text-xs font-medium transition flex items-center space-x-1 ${
-            activeTab === 'barber' ? 'bg-amber-500 text-slate-950 font-bold' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
-          }`}
-          title="Portal Barbero"
-        >
-          <UserCheck className="w-4 h-4" />
-          <span className="hidden sm:inline">Barberos</span>
-        </button>
+        {staffUser ? (
+          <div className="flex items-center space-x-2 bg-slate-800/80 border border-slate-700/80 px-3 py-1.5 rounded-xl">
+            <User className="w-3.5 h-3.5 text-amber-400" />
+            <span className="text-xs text-slate-200 font-medium max-w-[100px] truncate">
+              {staffUser.name} ({staffUser.role === 'admin' ? 'Admin' : 'Barbero'})
+            </span>
+            <button
+              onClick={logoutStaff}
+              className="text-slate-400 hover:text-red-400 p-1 transition"
+              title="Cerrar sesión"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        ) : (
+          <button
+            onClick={() => setIsStaffLoginOpen(true)}
+            className="p-2 rounded-xl bg-slate-800/60 hover:bg-slate-800 text-slate-400 hover:text-amber-400 transition text-xs font-medium flex items-center space-x-1 border border-slate-800"
+            title="Acceso Personal"
+          >
+            <Lock className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Staff</span>
+          </button>
+        )}
 
         {/* Cart Button */}
         <button

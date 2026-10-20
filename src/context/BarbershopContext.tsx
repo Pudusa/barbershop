@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
-import type { Service, Product, Barber, Appointment, CartItem, ActiveTab } from '../types';
+import type { Service, Product, Barber, Appointment, CartItem, ActiveTab, StaffUser } from '../types';
 import { initialServices, initialProducts, initialBarbers, initialAppointments } from '../data/mockData';
 import { api } from '../services/api';
 
@@ -15,6 +15,13 @@ interface BarbershopContextType {
   selectedServiceForBooking: Service | null;
   setSelectedServiceForBooking: (service: Service | null) => void;
   
+  // Staff Auth
+  staffUser: StaffUser | null;
+  isStaffLoginOpen: boolean;
+  setIsStaffLoginOpen: (open: boolean) => void;
+  loginStaff: (username: string, pass: string) => boolean;
+  logoutStaff: () => void;
+
   // Cart Actions
   addToCart: (product: Product) => void;
   removeFromCart: (productId: string) => void;
@@ -47,10 +54,50 @@ export const BarbershopProvider: React.FC<{ children: ReactNode }> = ({ children
   const [barbers, setBarbers] = useState<Barber[]>(initialBarbers);
   const [appointments, setAppointments] = useState<Appointment[]>(initialAppointments);
 
+  const [staffUser, setStaffUser] = useState<StaffUser | null>(() => {
+    const saved = localStorage.getItem('bb_staff');
+    return saved ? JSON.parse(saved) : null;
+  });
+  const [isStaffLoginOpen, setIsStaffLoginOpen] = useState(false);
+
   const [cart, setCart] = useState<CartItem[]>(() => {
     const saved = localStorage.getItem('bb_cart');
     return saved ? JSON.parse(saved) : [];
   });
+
+  useEffect(() => {
+    if (staffUser) {
+      localStorage.setItem('bb_staff', JSON.stringify(staffUser));
+    } else {
+      localStorage.removeItem('bb_staff');
+    }
+  }, [staffUser]);
+
+  const loginStaff = (username: string, pass: string): boolean => {
+    if (username === 'admin' && pass === 'admin123') {
+      const user: StaffUser = { username: 'admin', role: 'admin', name: 'Administrador' };
+      setStaffUser(user);
+      setActiveTab('admin');
+      setIsStaffLoginOpen(false);
+      return true;
+    }
+
+    const foundBarber = barbers.find(b => b.nickname.toLowerCase() === username.toLowerCase() || b.name.toLowerCase().includes(username.toLowerCase()));
+    if (foundBarber && (pass === '123' || pass === 'barber123')) {
+      const user: StaffUser = { username, role: 'barber', name: foundBarber.name, barberId: foundBarber.id };
+      setStaffUser(user);
+      setActiveTab('barber');
+      setIsStaffLoginOpen(false);
+      return true;
+    }
+
+    return false;
+  };
+
+  const logoutStaff = () => {
+    setStaffUser(null);
+    setActiveTab('home');
+  };
 
   // Fetch initial data from backend (Supabase connected)
   useEffect(() => {
@@ -195,6 +242,11 @@ export const BarbershopProvider: React.FC<{ children: ReactNode }> = ({ children
         cart,
         selectedServiceForBooking,
         setSelectedServiceForBooking,
+        staffUser,
+        isStaffLoginOpen,
+        setIsStaffLoginOpen,
+        loginStaff,
+        logoutStaff,
         addToCart,
         removeFromCart,
         updateCartQuantity,

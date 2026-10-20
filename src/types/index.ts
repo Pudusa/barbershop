@@ -49,3 +49,10 @@ export interface CartItem {
 }
 
 export type ActiveTab = 'home' | 'services' | 'store' | 'booking' | 'admin' | 'barber';
+
+export interface StaffUser {
+  username: string;
+  role: 'admin' | 'barber';
+  name: string;
+  barberId?: string;
+}
